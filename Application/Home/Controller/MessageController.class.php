@@ -24,7 +24,7 @@ class MessageController extends Controller
      */
     public function responseMsg()
     {
-    	//获取请求数据,在php高版本已经弃用次方法
+    	//获取请求数据,在php高版本已经弃用此方法
 		// $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
     
         // php高版本使用
@@ -55,10 +55,15 @@ class MessageController extends Controller
 					</xml>";             
 		if(!empty( $keyword ))
         {
-      		$msgType = "text";
-        	$contentStr = "你好啊";
-        	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-        	echo $resultStr;
+            //如果为文本消息
+            $msgType = $postObj->MsgType;
+            if ($msgType == 'text') {
+                //按照用户输入的内容回复
+            	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $postObj->Content);
+            	echo $resultStr;
+        	   // $contentStr = "你好啊";
+            }
+
         }
     }
 		

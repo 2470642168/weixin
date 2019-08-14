@@ -77,8 +77,8 @@ class MessageController extends Controller
             }elseif ($msgType == 'image') {
 		file_put_contents('1.txt','2');
                 //按照用户输入的内容回复
-                $content = "图片链接为" . $postObj->PicUrl . '图片的mediaId:' . $postObj->MediaId;
-                $resultStr = sprintf($imageTpl, $fromUsername, $toUsername, $time, 'text', $content);
+                $content = "图片链接为:".$postObj->PicUrl."图片的mediaId:".$postObj->MediaId;
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $content);
                 echo $resultStr;
             }
 

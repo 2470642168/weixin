@@ -62,6 +62,12 @@ class MessageController extends Controller
             	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $postObj->Content);
             	echo $resultStr;
         	   // $contentStr = "你好啊";
+               //如果为图片消息 
+            }elseif ($msgType == 'image') {
+                //按照用户输入的内容回复
+                $contentStr = "图片链接为" . $postObj->PicUrl . '图片的mediaId:' . $postObj->MediaId;
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'image', $postObj->Content);
+                echo $resultStr;
             }
 
         }

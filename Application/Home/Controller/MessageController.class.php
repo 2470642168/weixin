@@ -58,8 +58,44 @@ class MessageController extends Controller
 
         //如果为文本消息
         if ($msgType == 'text') {
-            //按照用户输入的内容回复
-        	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $postObj->Content);
+            $keyword = $postObj->Content;
+            if($keyword == '图片'){
+                // 回复图片消息
+                $picTpl = '<xml>
+                  <ToUserName><![CDATA[%s]]></ToUserName>
+                  <FromUserName><![CDATA[%s]]></FromUserName>
+                  <CreateTime>%s</CreateTime>
+                  <MsgType><![CDATA[image]]></MsgType>
+                  <Image>
+                    <MediaId><![CDATA[%s]]></MediaId>
+                  </Image>
+                </xml>';
+                // 从用户发送的图片消息中获取
+                $MediaId = 'nnRxnP7eMr3ia9TAkMRbSEbE4ymsN2yTb9zqPLMj5a6nKgrLDpTBaGW7FGTFVJJP';
+                $resultStr = sprintf($picTpl, $fromUsername, $toUsername, $time, $MediaId);
+            }elseif ($keyword == '图文') {
+                $newTpl = '<xml>
+                  <ToUserName><![CDATA[%s]]></ToUserName>
+                  <FromUserName><![CDATA[%s]]></FromUserName>
+                  <CreateTime>%s</CreateTime>
+                  <MsgType><![CDATA[news]]></MsgType>
+                  <ArticleCount>1</ArticleCount>
+                  <Articles>%s</Articles>
+                </xml>';
+                $Articles = '<item>
+                  <Title><![CDATA[Redis连表数据结构]]></Title>
+                  <Description><![CDATA[Redis连表数据结构具备原子性操作]]></Description>
+                  <PicUrl><![CDATA[http://mmbiz.qpic.cn/mmbiz_jpg/ZqbO1icS8X6QWiahFvPZ7MpZaLNwWO9Wdumq8xRR6YLCFZrFw0dA4qgkTkzX8rsibLMQjptibKxhLJjRU9XhxQtosg/0]]></PicUrl>
+                  <Url><![CDATA[http://www.baidu.com]]></Url>
+                </item>';
+                $resultStr = sprintf($newTpl, $fromUsername, $toUsername, $time, $Articles);
+            }else{
+
+                // 文本消息
+                // 对$textTpl变量中字符串进行格式化
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time,'text', $keyword);
+                file_put_contents('1.txt', $resultStr);
+            }
         	echo $resultStr;
             
            //如果为图片消息 
@@ -82,6 +118,12 @@ class MessageController extends Controller
             //如果为地理位置
         }elseif($msgType == 'location'){
             $content = "地理位置维度为:" . $postObj->Location_X . '经度为:' . $postObj->Location_Y;
+            $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $content);
+            echo $resultStr;
+
+            //如果为链接消息
+        }elseif($msgType == 'link'){
+            $content = "链接的标题为:" . $postObj->Title;
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $content);
             echo $resultStr;
         }

@@ -9,12 +9,13 @@
 				curl_setopt($ch, CURLOPT_POST, TRUE);
 				//参数
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
-			}elseif ($method == 'get') {
-				//get方式
-				curl_setopt($ch, CURLOPT_URL, $url);
-				//结果返回 不直接输出
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 			}
+			//get方式
+			curl_setopt($ch, CURLOPT_URL, $url);
+			//结果返回 不直接输出
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+			//禁用 https 证书检查
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 			// 3.发送请求
 			$json = curl_exec($ch);
 			// 4.关闭
@@ -22,3 +23,4 @@
 			return $json;
 		}
 	}
+?>

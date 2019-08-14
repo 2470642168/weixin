@@ -19,19 +19,30 @@ class MessageController extends Controller
         }
 	}
 
+    /**
+     * 实现消息回复
+     */
     public function responseMsg()
     {
-    	//php7版本废弃
+    	//获取请求数据,在php高版本已经弃用次方法
 		// $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+    
+        // php高版本使用
 		$postStr = file_get_contents('php://input');
-		if (!empty($postStr)){
+        //判断请求是否携带数据
+		if (empty($postStr)){
 			echo '';
 			exit;
         }
+        //xml安全处理
         libxml_disable_entity_loader(true);
+        //处理xml数据 , 转换为对象,方便调用
       	$postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+        //发生者的openid
         $fromUsername = $postObj->FromUserName;
+        //开发者身份标识
         $toUsername = $postObj->ToUserName;
+        //获取发送的内容
         $keyword = trim($postObj->Content);
         $time = time();
         $textTpl = "<xml>
@@ -45,7 +56,7 @@ class MessageController extends Controller
 		if(!empty( $keyword ))
         {
       		$msgType = "text";
-        	$contentStr = "Welcome to wechat world!";
+        	$contentStr = "你好啊";
         	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
         	echo $resultStr;
         }

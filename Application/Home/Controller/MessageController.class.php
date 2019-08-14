@@ -55,7 +55,7 @@ class MessageController extends Controller
 					<FuncFlag>0</FuncFlag>
 					</xml>";   
         //图片消息
-        $imageTpl = '<xml>
+        $imageTpl = "<xml>
                     <ToUserName><![CDATA[toUser]]></ToUserName>
                     <FromUserName><![CDATA[fromUser]]></FromUserName>
                     <CreateTime>1348831860</CreateTime>
@@ -63,7 +63,7 @@ class MessageController extends Controller
                     <PicUrl><![CDATA[this is a url]]></PicUrl>
                     <MediaId><![CDATA[media_id]]></MediaId>
                     <MsgId>1234567890123456</MsgId>
-                    </xml>';       
+                    </xml>";       
 		if(!empty( $keyword ))
         {
             $msgType = $postObj->MsgType;
@@ -75,6 +75,7 @@ class MessageController extends Controller
         	   // $contentStr = "你好啊";
                //如果为图片消息 
             }elseif ($msgType == 'image') {
+		file_put_contents('1.txt','2');
                 //按照用户输入的内容回复
                 $content = "图片链接为" . $postObj->PicUrl . '图片的mediaId:' . $postObj->MediaId;
                 $resultStr = sprintf($imageTpl, $fromUsername, $toUsername, $time, 'text', $content);

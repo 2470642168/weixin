@@ -15,9 +15,11 @@
 			//结果返回 不直接输出
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER,TRUE);
 			//禁用 https 证书检查
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER ,FALSE);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER,FALSE);
+			//检查证书加密是否存在
+			//curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
 			// 3.发送请求
-			$json = curl_exec($ch);
+			curl_exec($ch);
 			// 4.关闭
 			curl_close($ch);
 			return $json;

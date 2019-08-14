@@ -71,10 +71,9 @@ class MessageController extends Controller
             //如果为语音消息
         }elseif($msgType == 'voice'){
             //按照用户输入的内容回复
-            // $content = "mediaId:".$postObj->MediaId;
-            // $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $content);
+             //$content = "mediaId:".$postObj->MediaId;
+             //$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $content);
             // echo $resultStr;
-            
             // 语音识别
             $content = "语音的内容为:".$postObj->Recognition;
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $content);

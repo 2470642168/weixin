@@ -68,6 +68,23 @@ class MessageController extends Controller
             $content = "图片链接为:".$postObj->PicUrl."图片的mediaId:".$postObj->MediaId;
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $content);
             echo $resultStr;
+            //如果为语音消息
+        }elseif($msgType == 'voice'){
+            //按照用户输入的内容回复
+            // $content = "mediaId:".$postObj->MediaId;
+            // $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $content);
+            // echo $resultStr;
+            
+            // 语音识别
+            $content = "语音的内容为:".$postObj->Recognition;
+            $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $content);
+            echo $resultStr;
+            
+            //如果为地理位置
+        }elseif($msgType == 'location'){
+            $content = "地理位置维度为:" . $postObj->Location_X . '经度为:' . $postObj->Location_Y;
+            $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $content);
+            echo $resultStr;
         }
     }
 		

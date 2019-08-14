@@ -45,6 +45,7 @@ class MessageController extends Controller
         //获取发送的内容
         $keyword = trim($postObj->Content);
         $time = time();
+        //文本消息
         $textTpl = "<xml>
 					<ToUserName><![CDATA[%s]]></ToUserName>
 					<FromUserName><![CDATA[%s]]></FromUserName>
@@ -52,11 +53,21 @@ class MessageController extends Controller
 					<MsgType><![CDATA[%s]]></MsgType>
 					<Content><![CDATA[%s]]></Content>
 					<FuncFlag>0</FuncFlag>
-					</xml>";             
+					</xml>";   
+        //图片消息
+        $imageTpl = '<xml>
+                    <ToUserName><![CDATA[toUser]]></ToUserName>
+                    <FromUserName><![CDATA[fromUser]]></FromUserName>
+                    <CreateTime>1348831860</CreateTime>
+                    <MsgType><![CDATA[image]]></MsgType>
+                    <PicUrl><![CDATA[this is a url]]></PicUrl>
+                    <MediaId><![CDATA[media_id]]></MediaId>
+                    <MsgId>1234567890123456</MsgId>
+                    </xml>';       
 		if(!empty( $keyword ))
         {
-            //如果为文本消息
             $msgType = $postObj->MsgType;
+            //如果为文本消息
             if ($msgType == 'text') {
                 //按照用户输入的内容回复
             	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $postObj->Content);
@@ -65,8 +76,8 @@ class MessageController extends Controller
                //如果为图片消息 
             }elseif ($msgType == 'image') {
                 //按照用户输入的内容回复
-                $contentStr = "图片链接为" . $postObj->PicUrl . '图片的mediaId:' . $postObj->MediaId;
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'image', $postObj->Content);
+                $content = "图片链接为" . $postObj->PicUrl . '图片的mediaId:' . $postObj->MediaId;
+                $resultStr = sprintf($imageTpl, $fromUsername, $toUsername, $time, 'text', $content);
                 echo $resultStr;
             }
 
